@@ -14,10 +14,47 @@ class Channel:
         self._channel_id = channel_id
         self.title = Channel.print_info(self)['items'][0]['snippet']['title']
         self.description = Channel.print_info(self)['items'][0]['snippet']['description']
-        self.url = f"https://www.youtube.com/{Channel.print_info(self)['items'][0]['snippet']['customUrl']}"
+        self.url = f"https://www.youtube.com/channel/{channel_id}"
         self.video_count = Channel.print_info(self)['items'][0]['statistics']['videoCount']
         self.views_count = Channel.print_info(self)['items'][0]['statistics']['viewCount']
         self.subscriber_count = Channel.print_info(self)['items'][0]['statistics']['subscriberCount']
+
+
+    def __str__(self):
+        return f'{self.title} ({self.url})'
+
+    def __add__(self, other):
+        return int(self.subscriber_count) + int(other.subscriber_count)
+
+    def __sub__(self, other):
+        return int(self.subscriber_count) - int(other.subscriber_count)
+
+    def __gt__(self, other):
+        if int(self.subscriber_count) > int(other.subscriber_count):
+            return True
+        return False
+
+    def __ge__(self, other):
+        if int(self.subscriber_count) >= int(other.subscriber_count):
+            return True
+        return False
+
+    def __lt__(self, other):
+        if int(self.subscriber_count) < int(other.subscriber_count):
+            return True
+        return False
+
+    def __le__(self, other):
+        if int(self.subscriber_count) <= int(other.subscriber_count):
+            return True
+        return False
+
+    def __eq__(self, other):
+        if int(self.subscriber_count) == int(other.subscriber_count):
+            return True
+        return False
+
+
 
 
     def print_info(self) -> dict:
@@ -44,4 +81,3 @@ class Channel:
         data['subscriberCount'] = self.subscriber_count
         with open(f'{name_json}', "w", encoding='utf-8') as file:
             json.dump(data, file, indent=2, ensure_ascii=False)
-
