@@ -19,7 +19,6 @@ class Channel:
         self.views_count = Channel.print_info(self)['items'][0]['statistics']['viewCount']
         self.subscriber_count = Channel.print_info(self)['items'][0]['statistics']['subscriberCount']
 
-
     def __str__(self):
         return f'{self.title} ({self.url})'
 
@@ -54,9 +53,6 @@ class Channel:
             return True
         return False
 
-
-
-
     def print_info(self) -> dict:
         """Выводит в консоль информацию о канале."""
         channel = youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
@@ -71,16 +67,8 @@ class Channel:
         return Channel.channel_id
 
     def to_json(self, name_json) -> "json":
-        data = {}
-        data['channel_id'] = self.channel_id
-        data['title'] = self.title
-        data['description'] = self.description
-        data['url'] = self.url
-        data['videoCount'] = self.video_count
-        data['viewsCount'] = self.views_count
-        data['subscriberCount'] = self.subscriber_count
+        data = {'channel_id': self.channel_id, 'title': self.title, 'description': self.description, 'url': self.url,
+                'videoCount': self.video_count, 'viewsCount': self.views_count,
+                'subscriberCount': self.subscriber_count}
         with open(f'{name_json}', "w", encoding='utf-8') as file:
             json.dump(data, file, indent=2, ensure_ascii=False)
-
-
-
